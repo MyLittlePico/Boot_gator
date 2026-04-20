@@ -1,15 +1,12 @@
 package main
 
 import (
-	"context"
 	"database/sql"
 	"fmt"
 	"os"
-	"github.com/google/uuid"
 	"github.com/MyLittlePico/Blog_Aggregator/internal/config"
 	"github.com/MyLittlePico/Blog_Aggregator/internal/database"
 	_ "github.com/lib/pq"
-	"time"
 )
 
 
@@ -81,58 +78,7 @@ func (c *commands)init(){
 	c.register("login", handlerLogin)
 	c.register("register", handlerRegister)
 	c.register("reset", handlerReset)
-	
+	c.register("users", handlerGetUsers)
+	c.register("agg", handlerAgg)
 }
 
-func handlerLogin(s *state, cmd command) error {
-	if len(cmd.args) != 1 {
-		return fmt.Errorf("Invalid number of arguments")
-	}
-	_ , err :=s.db.GetUser(context.Background(),cmd.args[0])
-	if err != nil{
-		fmt.Printf("couldn't log in user %s not exist",cmd.args[0])
-		os.Exit(1)
-	}
-
-	if err := s.cfg.SetUser(cmd.args[0]); err != nil{
-		return err
-	}
-	fmt.Printf("Set user name to %s\n",cmd.args[0])
-	return nil
-}
-
-func handlerRegister(s *state, cmd command) error {
-	if len(cmd.args) != 1 {
-		return fmt.Errorf("Invalid number of arguments")
-	}
-	_, err := s.db.GetUser(context.Background(), cmd.args[0])
-	if err == nil{
-		fmt.Printf("User %s already exist",cmd.args[0])
-		os.Exit(1)
-	}
-	user, err := s.db.CreateUser(context.Background(),database.CreateUserParams{
-		ID: uuid.New(),
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-		Name: cmd.args[0],
-	})
-	if err!= nil{
-		return err
-	}
-
-	s.cfg.CurrentUserName = cmd.args[0]
-	fmt.Printf("User %s was created", s.cfg.CurrentUserName )
-	fmt.Printf("%+v\n", user)
-
-	return handlerLogin(s , cmd)
-}
-
-func handlerReset(s *state, cmd command) error {
-	err := s.db.Reset(context.Background())
-	if err != nil {
-		fmt.Printf("Restting Database Failed: %v\n",err)
-		os.Exit(1)
-	}
-	fmt.Println("Restting Database successed")
-	return nil
-}
