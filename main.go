@@ -80,6 +80,7 @@ func (c *commands) register(name string, f func(s *state, cmd command)error) err
 func (c *commands)init(){
 	c.register("login", handlerLogin)
 	c.register("register", handlerRegister)
+	c.register("reset", handlerReset)
 	
 }
 
@@ -124,4 +125,14 @@ func handlerRegister(s *state, cmd command) error {
 	fmt.Printf("%+v\n", user)
 
 	return handlerLogin(s , cmd)
+}
+
+func handlerReset(s *state, cmd command) error {
+	err := s.db.Reset(context.Background())
+	if err != nil {
+		fmt.Printf("Restting Database Failed: %v\n",err)
+		os.Exit(1)
+	}
+	fmt.Println("Restting Database successed")
+	return nil
 }
