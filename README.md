@@ -1,6 +1,6 @@
-# Gator
+# gator
 
-Simple overview of use/purpose.
+a bolg aggregator written in go
 
 ## Description
 
