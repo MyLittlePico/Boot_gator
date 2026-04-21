@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
-	"github.com/MyLittlePico/Boot_Blog_Aggregator/internal/config"
-	"github.com/MyLittlePico/Boot_Blog_Aggregator/internal/database"
+	"github.com/MyLittlePico/Boot_gator/internal/config"
+	"github.com/MyLittlePico/Boot_gator/internal/database"
 	_ "github.com/lib/pq"
 )
 

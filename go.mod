@@ -1,4 +1,4 @@
-module github.com/MyLittlePico/Boot_Blog_Aggregator
+module github.com/MyLittlePico/Boot_gator
 
 go 1.26.2
 
