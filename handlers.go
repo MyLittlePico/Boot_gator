@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/google/uuid"
-	"github.com/MyLittlePico/Blog_Aggregator/internal/database"
+	"github.com/MyLittlePico/Boot_Blog_Aggregator/internal/database"
 	_ "github.com/lib/pq"
 	"time"
 	"strings"
